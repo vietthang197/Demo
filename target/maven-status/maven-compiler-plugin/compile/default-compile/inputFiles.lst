@@ -2,9 +2,13 @@ E:\IdeaProjects\demo\src\main\java\com\example\demo\filter\JWTAuthenticationFilt
 E:\IdeaProjects\demo\src\main\java\com\example\demo\controller\UserController.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\DemoApplication.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\controller\BaseController.java
-E:\IdeaProjects\demo\src\main\java\com\example\demo\model\UserLoginDTO.java
-E:\IdeaProjects\demo\src\main\java\com\example\demo\service\TokenAuthenticationService.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\filter\JWTLoginFilter.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\entity\User.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\model\UserProfileDTO.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\model\UserGrantedAuthority.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\entity\Role.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\entity\UserDetails.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\entity\UsersRoles.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\model\UserLoginDTO.java
+E:\IdeaProjects\demo\src\main\java\com\example\demo\service\TokenAuthenticationService.java
 E:\IdeaProjects\demo\src\main\java\com\example\demo\config\WebSecurityConfig.java
