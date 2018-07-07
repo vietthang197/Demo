@@ -20,17 +20,17 @@ import org.springframework.security.core.GrantedAuthority;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.io.PrintWriter;
 import java.io.UnsupportedEncodingException;
 import java.util.*;
 
 
 public class TokenAuthenticationService {
-    static final long EXPIRATIONTIME = 5000; // 10 days
     static String randomString = "k`!jfj!fj#23af^h((&&)(UY_HFH@#$%&^*()...adfafdh";
     static String SECRET = Base64.getEncoder().encodeToString(randomString.getBytes());
-    static final String TOKEN_PREFIX = "Bearer";
     static final String HEADER_STRING = "Authorization";
     private static ObjectMapper objectMapper = new ObjectMapper();
+
     public static void addAuthentication(HttpServletResponse res, Authentication authResult) {
         Date dt = new Date();
         Date dtStart = dt;
@@ -54,7 +54,15 @@ public class TokenAuthenticationService {
         }
 
         res.setStatus(HttpServletResponse.SC_OK);
-        res.setHeader("Authorization", JWT);
+        res.setContentType("application/json");
+        try {
+            PrintWriter printWriter = res.getWriter();
+            printWriter.write("{\"authorization\":\""+JWT+"\"}");
+            printWriter.flush();
+            printWriter.close();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
     }
 

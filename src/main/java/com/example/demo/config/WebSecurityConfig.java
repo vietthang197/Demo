@@ -20,6 +20,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
 import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.List;
 
 @Configuration
 @EnableWebSecurity
@@ -39,6 +41,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         config.addAllowedMethod("POST");
         config.addAllowedMethod("PUT");
         config.addAllowedMethod("DELETE");
+        config.addAllowedHeader("Authorization, Authorization");
+        config.addAllowedHeader("Authorization");
+        config.addAllowedHeader("Access-Control-Expose-Headers");
         source.registerCorsConfiguration("/**", config);
         return new CorsFilter(source);
     }
@@ -57,9 +62,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT username, password, enable FROM user WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT u.username as username, r.name as role FROM user u "
-                        + "INNER JOIN users_roles ur ON u.id = ur.user_id "
-                        + "INNER JOIN role r ON ur.role_id = r.id WHERE u.username = ?").passwordEncoder(new BCryptPasswordEncoder(12));
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT username, password, enable FROM public.user WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT u.username as username, r.name as role FROM public.user u "
+                        + "INNER JOIN public.users_roles ur ON u.id = ur.user_id "
+                        + "INNER JOIN public.role r ON ur.role_id = r.id WHERE u.username = ?").passwordEncoder(new BCryptPasswordEncoder(12));
     }
 }
