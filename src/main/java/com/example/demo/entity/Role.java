@@ -3,10 +3,13 @@ package com.example.demo.entity;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "role")
 public class Role implements Serializable {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
@@ -14,6 +17,9 @@ public class Role implements Serializable {
     @Column(unique = true)
     @NotNull
     private String name;
+
+    @ManyToMany(mappedBy = "roles")
+    private Set<User> users = new HashSet<>();
 
     public Role() {
     }
@@ -37,4 +43,5 @@ public class Role implements Serializable {
     public void setName(String name) {
         this.name = name;
     }
+
 }

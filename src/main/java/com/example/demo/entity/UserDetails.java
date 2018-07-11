@@ -13,6 +13,8 @@ import java.sql.Date;
 @Table(name = "user_details")
 public class UserDetails implements Serializable {
 
+    @Id
+    @Column(name = "user_id")
     public int userId;
 
     @Column
@@ -24,6 +26,10 @@ public class UserDetails implements Serializable {
     @Column
     public Date birthday;
 
+
+    @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
+    @JoinColumn(name = "id", referencedColumnName = "user_id")
+    @MapsId
     private User user;
 
 
@@ -37,11 +43,6 @@ public class UserDetails implements Serializable {
         this.birthday = birthday;
     }
 
-    @GenericGenerator(name = "generator", strategy = "foreign",
-            parameters = @Parameter(name = "property", value = "user"))
-    @Id
-    @GeneratedValue(generator = "generator")
-    @Column(name = "user_id", unique = true, nullable = false)
     public int getUserId() {
         return userId;
     }
@@ -74,9 +75,6 @@ public class UserDetails implements Serializable {
         this.birthday = birthday;
     }
 
-    @OneToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "id")
-    @PrimaryKeyJoinColumn
     public User getUser() {
         return user;
     }

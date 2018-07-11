@@ -12,7 +12,6 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@EnableAutoConfiguration
 @ComponentScan(basePackages = {"com.example.demo", "com.example.demo.controller"})
 @RequestMapping("/admin")
 public class BaseController {

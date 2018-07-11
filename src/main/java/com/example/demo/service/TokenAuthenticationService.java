@@ -55,6 +55,7 @@ public class TokenAuthenticationService {
 
         res.setStatus(HttpServletResponse.SC_OK);
         res.setContentType("application/json");
+        res.setHeader("Authorization", JWT);
         try {
             PrintWriter printWriter = res.getWriter();
             printWriter.write("{\"authorization\":\""+JWT+"\"}");

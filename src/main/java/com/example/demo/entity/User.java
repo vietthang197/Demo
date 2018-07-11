@@ -6,6 +6,8 @@ import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.io.Serializable;
 import java.sql.Date;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name = "user")
@@ -26,7 +28,14 @@ public class User implements Serializable {
     @NotNull
     private int enable;
 
+    @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private UserDetails userDetails;
+
+    @ManyToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(name = "users_roles",
+            joinColumns = { @JoinColumn(name = "user_id", referencedColumnName = "id")},
+            inverseJoinColumns = {@JoinColumn(name = "role_id", referencedColumnName = "id")})
+    private Set<Role> roles = new HashSet<>();
 
     public User() {
 
@@ -70,12 +79,12 @@ public class User implements Serializable {
         this.enable = enable;
     }
 
-    @OneToOne(fetch = FetchType.EAGER, mappedBy = "user", cascade = CascadeType.ALL)
-    public UserDetails getUserDetails() {
-        return userDetails;
+
+    public Set<Role> getRoles() {
+        return roles;
     }
 
-    public void setUserDetails(UserDetails userDetails) {
-        this.userDetails = userDetails;
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 }

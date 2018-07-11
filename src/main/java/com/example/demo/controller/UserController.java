@@ -1,6 +1,8 @@
 package com.example.demo.controller;
 
 import com.example.demo.entity.User;
+import com.example.demo.entity.UserDetails;
+import com.example.demo.service.UserDetailsService;
 import com.example.demo.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -18,6 +20,9 @@ public class UserController {
     @Autowired
     private UserService userService;
 
+    @Autowired
+    private UserDetailsService userDetailsService;
+
     @GetMapping
     public String defaults(){
         return "Hello casc ban";
@@ -26,5 +31,10 @@ public class UserController {
     @GetMapping("/list-user")
     public List<User> listUser(){
         return userService.findAllUser();
+    }
+
+    @GetMapping("/details-user")
+    public List<UserDetails> listUserDetails() {
+        return userDetailsService.findAll();
     }
 }
