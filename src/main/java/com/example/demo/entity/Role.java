@@ -6,19 +6,20 @@ import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "role")
+@Entity(name = "user")
+@Table(name = "role", indexes = {@Index(name = "EMP_NAME_INDEX", columnList = "id, name")})
 public class Role implements Serializable {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "role_id_seq")
+    @SequenceGenerator(name="role_id_seq", sequenceName="role_id_seq", allocationSize=1)
     private int id;
 
     @Column(unique = true)
     @NotNull
     private String name;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(mappedBy = "roles", fetch = FetchType.LAZY)
     private Set<User> users = new HashSet<>();
 
     public Role() {

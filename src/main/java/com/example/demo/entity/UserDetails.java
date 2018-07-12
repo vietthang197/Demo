@@ -9,18 +9,18 @@ import javax.validation.Constraint;
 import java.io.Serializable;
 import java.sql.Date;
 
-@Entity
-@Table(name = "user_details")
+@Entity(name = "user_details")
+@Table(name = "user_details", indexes = {@Index(name = "EMP_EMAIL_INDEX", columnList = "id,email")})
 public class UserDetails implements Serializable {
 
     @Id
-    @Column(name = "user_id")
+    @Column(name = "id")
     public int userId;
 
     @Column
     public String name;
 
-    @Column
+    @Column(unique = true)
     public String email;
 
     @Column
@@ -28,7 +28,7 @@ public class UserDetails implements Serializable {
 
 
     @OneToOne(fetch = FetchType.LAZY, cascade = CascadeType.ALL, optional = false)
-    @JoinColumn(name = "id", referencedColumnName = "user_id")
+    @JoinColumn(name = "id")
     @MapsId
     private User user;
 
@@ -42,6 +42,8 @@ public class UserDetails implements Serializable {
         this.email = email;
         this.birthday = birthday;
     }
+
+
 
     public int getUserId() {
         return userId;

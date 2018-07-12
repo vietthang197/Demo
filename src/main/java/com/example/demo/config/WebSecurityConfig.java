@@ -19,15 +19,16 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 
-import javax.sql.DataSource;
-import java.util.ArrayList;
-import java.util.List;
-
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private DataSource dataSource;
+
+    @Bean
+    public BCryptPasswordEncoder passwordEncoder(){
+        return new BCryptPasswordEncoder(12);
+    }
 
     @Bean
     public CorsFilter corsFilter() {
@@ -55,7 +56,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and();
         http.csrf().disable().authorizeRequests()
+                .antMatchers("/validate-form/check-exists-username").permitAll()
+                .antMatchers("/validate-form/check-exists-email").permitAll()
                 .antMatchers(HttpMethod.POST, "/login").permitAll()
+                .antMatchers(HttpMethod.POST, "/register").permitAll()
                 .antMatchers("/user/**").hasAuthority("USER")
                 .antMatchers("/admin/**").hasAuthority(("ADMIN"))
                 .anyRequest().authenticated()
@@ -66,9 +70,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT username, password, enable FROM user WHERE username = ?")
-                .authoritiesByUsernameQuery("SELECT u.username as username, r.name as role FROM user u "
-                        + "INNER JOIN users_roles ur ON u.id = ur.user_id "
-                        + "INNER JOIN role r ON ur.role_id = r.id WHERE u.username = ?").passwordEncoder(new BCryptPasswordEncoder(12));
+        auth.jdbcAuthentication().dataSource(dataSource).usersByUsernameQuery("SELECT username, password, enable FROM public.user WHERE username = ?")
+                .authoritiesByUsernameQuery("SELECT u.username as username, r.name as role FROM public.user u "
+                        + "INNER JOIN public.users_roles ur ON u.id = ur.user_id "
+                        + "INNER JOIN public.role r ON ur.role_id = r.id WHERE u.username = ?").passwordEncoder(new BCryptPasswordEncoder(12));
     }
 }

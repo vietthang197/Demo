@@ -1,9 +1,8 @@
 package com.example.demo.filter;
 
-import com.example.demo.model.UserLoginDTO;
+import com.example.demo.dto.UserLoginDTO;
 import com.example.demo.service.TokenAuthenticationService;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;

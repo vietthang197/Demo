@@ -1,5 +1,6 @@
 package com.example.demo.entity;
 
+import org.hibernate.annotations.Filter;
 import org.springframework.lang.Nullable;
 
 import javax.persistence.*;
@@ -9,11 +10,12 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-@Entity
-@Table(name = "user")
+@Entity(name = "user")
+@Table(name = "user", indexes = {@Index(name = "EMP_USERNAME_INDEX", columnList = "id,username")})
 public class User implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "user_id_seq")
+    @SequenceGenerator(name="user_id_seq", sequenceName="user_id_seq", allocationSize=1)
     private int id;
 
     @Column(unique = true)
@@ -26,7 +28,7 @@ public class User implements Serializable {
 
     @Column
     @NotNull
-    private int enable;
+    private Boolean enable;
 
     @OneToOne(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private UserDetails userDetails;
@@ -71,11 +73,11 @@ public class User implements Serializable {
         this.password = password;
     }
 
-    public int getEnable() {
+    public Boolean getEnable() {
         return enable;
     }
 
-    public void setEnable(int enable) {
+    public void setEnable(Boolean enable) {
         this.enable = enable;
     }
 
@@ -86,5 +88,13 @@ public class User implements Serializable {
 
     public void setRoles(Set<Role> roles) {
         this.roles = roles;
+    }
+
+    public boolean isEnable() {
+        return enable;
+    }
+
+    public void setUserDetails(UserDetails userDetails) {
+        this.userDetails = userDetails;
     }
 }

@@ -1,6 +1,8 @@
-package com.example.demo.model;
+package com.example.demo.dto;
 
-public class UserLoginDTO {
+import java.io.Serializable;
+
+public class UserLoginDTO implements Serializable {
     private String username;
     private String password;
 
